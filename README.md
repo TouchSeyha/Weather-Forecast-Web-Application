@@ -28,7 +28,7 @@ A single-page weather forecast website that provides real-time weather data usin
 ## How to Use
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/weather-forecast-app.git
+   git clone https://github.com/TouchSeyha/Weather-Forecast-Web-Application.git
 
 2. **Open the Project**: Navigate to the project folder and open index.html in your browser.
 
