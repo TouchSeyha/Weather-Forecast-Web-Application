@@ -2,7 +2,10 @@
 
 A single-page weather forecast website that provides real-time weather data using the OpenWeatherMap API. The application features a clean and responsive design, with two main tabs: **Today's Forecast** and **5-Day Forecast**.
 
-![Weather Forecast App Screenshot](screenshot.png) <!-- Add a screenshot if available -->
+![overview](https://github.com/user-attachments/assets/7e9e4847-5783-4ffa-8374-ce43b703ee58)
+![image](https://github.com/user-attachments/assets/7b8dd938-e814-4b79-951e-7e8e9bfa5172)
+
+
 
 ## Features
 
