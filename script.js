@@ -52,6 +52,7 @@ async function fetchWeatherByCoords(coords) {
     ]);
 
     updateWeatherData(weatherData, cityData[0].name);
+    fetchNearbyCities(cityData[0].name);
   } catch (error) {
     showError();
   }
@@ -76,6 +77,7 @@ async function fetchWeatherData(city) {
     const weatherData = await weatherResponse.json();
 
     updateWeatherData(weatherData, city);
+    fetchNearbyCities(city);
   } catch (error) {
     showError();
   }
@@ -101,21 +103,23 @@ function updateWeatherData(data, cityName) {
       <h3>${new Date(current.dt * 1000).toLocaleDateString()}</h3>
     </div>
       <div style="display: flex;flex-direction: row;align-items: center;align-content: center;flex-wrap: nowrap;justify-content: space-around;">
-        <div>
+        <div style="display: flex;flex-direction: column;align-items: center;align-content: center;flex-wrap: nowrap;">
           <img src="https://openweathermap.org/img/wn/${
             current.weather[0].icon
           }@2x.png">
           <p>${current.weather[0].description}</p>
         </div>
-        <div>
+        <div style="display: flex;flex-direction: column;align-items: center;align-content: center;flex-wrap: nowrap;">
           <p>Temp: ${current.temp}°C</p>
           <p>Feels like: ${current.feels_like}°C</p>
         </div>
-        <div>
-          <p>Sunrise: ${new Date(
+        <div style="display: flex;flex-direction: column;align-items: center;align-content: center;flex-wrap: nowrap;">
+          <p>Sunrise at: ${new Date(
             current.sunrise * 1000
           ).toLocaleTimeString()}</p>
-          <p>Sunset: ${new Date(current.sunset * 1000).toLocaleTimeString()}</p>
+          <p>Sunset at: ${new Date(
+            current.sunset * 1000
+          ).toLocaleTimeString()}</p>
           <p>Day length: ${((current.sunset - current.sunrise) / 3600).toFixed(
             1
           )} hours</p>
@@ -126,7 +130,7 @@ function updateWeatherData(data, cityName) {
 
   // Update hourly forecast
   domElements.hourlyForecast.innerHTML = data.hourly
-    .slice(0, 24)
+    .slice(0, 10)
     .map((entry) => createHourlyItem(entry))
     .join("");
 
@@ -189,4 +193,49 @@ function showError() {
 
 function hideError() {
   document.getElementById("error").style.display = "none";
+}
+
+async function fetchNearbyCities(cityName) {
+  try {
+    console.log(`Fetching geolocation for city: ${cityName}`);
+    const geoResponse = await fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`
+    );
+
+    if (!geoResponse.ok) throw new Error("Geocoding failed");
+    const geoData = await geoResponse.json();
+    if (!geoData.length) throw new Error("City not found");
+
+    console.log(`Geolocation data:`, geoData);
+
+    const nearbyCitiesResponse = await fetch(
+      `https://api.openweathermap.org/data/2.5/find?lat=${geoData[0].lat}&lon=${geoData[0].lon}&cnt=5&units=metric&appid=${API_KEY}`
+    );
+
+    if (!nearbyCitiesResponse.ok) throw new Error("Nearby cities data failed");
+    const nearbyCitiesData = await nearbyCitiesResponse.json();
+
+    console.log(`Nearby cities data:`, nearbyCitiesData);
+
+    updateNearbyCities(nearbyCitiesData.list);
+  } catch (error) {
+    console.error("Error fetching nearby cities:", error);
+  }
+}
+
+function updateNearbyCities(cities) {
+  const nearbyCitiesContainer = document.querySelector(".nearby-cities");
+  console.log(`Updating nearby cities:`, cities);
+  nearbyCitiesContainer.innerHTML = cities
+    .map(
+      (city) => `
+      <div class="nearby-city" style="display: flex;flex-direction: column;align-items: center;align-content: center;flex-wrap: nowrap;">
+        <h4>${city.name}</h4>
+        <img src="https://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png">
+        <p>Temp: ${city.main.temp}°C</p>
+        <p>${city.weather[0].description}</p>
+      </div>
+    `
+    )
+    .join("");
 }

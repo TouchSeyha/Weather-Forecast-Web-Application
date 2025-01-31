@@ -1,63 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather Forecast</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>My Weather</h1>
+        <input type="text" id="search" placeholder="Enter city name" />
+      </header>
+      <nav>
+        <button class="tab active" data-tab="today">Today</button>
+        <button class="tab" data-tab="five-day">5-Day Forecast</button>
+      </nav>
 
-<body>
-  <div class="container">
-    <header class="header">
-      <h1>My Weather</h1>
-      <input type="text" id="search" placeholder="Enter city name">
-    </header>
-    <nav>
-      <button class="tab active" data-tab="today">Today</button>
-      <button class="tab" data-tab="five-day">5-Day Forecast</button>
-    </nav>
+      <div id="error" class="weather-block">
+        <h2>404 Not Found</h2>
+        <p>City not found. Please try again.</p>
+      </div>
 
-    <div id="error" class="weather-block">
-      <h2>404 Not Found</h2>
-      <p>City not found. Please try again.</p>
+      <div id="today" class="tab-content active">
+        <div class="weather-block current-summary">
+          <h3>Current Weather</h3>
+          <!-- Current weather data will be inserted here -->
+        </div>
+        <div class="weather-block">
+          <h3>Hourly Forecast</h3>
+          <div class="hourly-forecast">
+            <!-- Hourly data will be inserted here -->
+          </div>
+        </div>
+        <div class="weather-block">
+          <h3>Nearby Cities</h3>
+          <div class="nearby-cities">
+            <!-- Nearby cities data will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <div id="five-day" class="tab-content">
+        <div class="weather-block">
+          <div class="day-forecast">
+            <!-- 5-day forecast will be inserted here -->
+          </div>
+          <div class="hourly-forecast">
+            <!-- Selected day's hourly forecast will be inserted here -->
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="today" class="tab-content active">
-      <div class="weather-block current-summary">
-        <h3>Current Weather</h3>
-        <!-- Current weather data will be inserted here -->
-      </div>
-      <div class="weather-block">
-        <h3>Hourly Forecast</h3>
-        <div class="hourly-forecast">
-          <!-- Hourly data will be inserted here -->
-        </div>
-      </div>
-      <div class="weather-block">
-        <h3>Nearby Cities</h3>
-        <div class="nearby-cities">
-          <!-- Nearby cities data will be inserted here -->
-        </div>
-      </div>
-    </div>
-
-    <div id="five-day" class="tab-content">
-      <div class="weather-block">
-        <div class="day-forecast">
-          <!-- 5-day forecast will be inserted here -->
-        </div>
-        <div class="hourly-forecast">
-          <!-- Selected day's hourly forecast will be inserted here -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js">
-
-  </script>
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
